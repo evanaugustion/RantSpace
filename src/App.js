@@ -1,38 +1,34 @@
-// src/App.js
 import React, { useEffect, useState } from "react";
 import { anonymousSignIn } from "./firebaseConfig";
-import { submitRant, fetchRants, reportRant } from "./firebaseService";
-
+import { submitRant, fetchRants, findSimilarRants } from "./firebaseService";
 
 function App() {
-  const [rant, setRant] = useState(""); 
+  const [rant, setRant] = useState("");
   const [rants, setRants] = useState([]);
+  const [similarRants, setSimilarRants] = useState([]);
 
   useEffect(() => {
-    // Sign in anonymously when the app loads
     anonymousSignIn();
-
-    // Fetch initial rants from Firestore
     loadRants();
   }, []);
 
-  // Function to load rants
   const loadRants = async () => {
     const fetchedRants = await fetchRants();
     setRants(fetchedRants);
   };
 
-  // Function to handle rant submission
+  // Submit a new rant and fetch similar rants
   const handleRantSubmit = async () => {
     await submitRant(rant);
     setRant("");
-    loadRants(); // Refresh the list of rants
+    loadRants();
+    fetchSimilarRants(rant); // Fetch similar rants after submission
   };
 
-  // Function to handle rant reporting
-  const handleReport = async (id, content) => {
-    await reportRant(id, content);
-    alert("Rant reported!");
+  // Fetch similar rants based on current rant
+  const fetchSimilarRants = async (input) => {
+    const matches = await findSimilarRants(input);
+    setSimilarRants(matches);
   };
 
   return (
@@ -40,17 +36,19 @@ function App() {
       <h1>RantSpace</h1>
       <textarea
         value={rant}
-        onChange={(e) => setRant(e.target.value)}
-        placeholder="Let out your RANTS here!"
+        onChange={(e) => {
+          setRant(e.target.value);
+          fetchSimilarRants(e.target.value); // Check for similar rants as you type
+        }}
+        placeholder="Type your rant here..."
       />
       <button onClick={handleRantSubmit}>Submit Rant</button>
 
-      <h2>Previous Rants</h2>
+      <h2>Similar Rants</h2>
       <ul>
-        {rants.map((rant) => (
+        {similarRants.map((rant) => (
           <li key={rant.id}>
-            {rant.content} 
-            <button onClick={() => handleReport(rant.id, rant.content)}>Report</button>
+            {rant.content} - Similarity Score: {(rant.score * 100).toFixed(2)}%
           </li>
         ))}
       </ul>

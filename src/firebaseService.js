@@ -35,17 +35,27 @@ export const fetchRants = async () => {
   }
 };
 
-// Function to report a rant
-export const reportRant = async (rantId, content) => {
-  try {
-    const report = {
-      content: content,
-      timestamp: Timestamp.now(),
-      originalId: rantId
-    };
-    await addDoc(reportedRantsCollection, report);
-    console.log("Rant reported successfully!");
-  } catch (error) {
-    console.error("Error reporting rant:", error);
-  }
+// Helper function to calculate similarity based on shared words
+function calculateSimilarity(input, rantContent) {
+  const inputWords = input.toLowerCase().split(" ");
+  const rantWords = rantContent.toLowerCase().split(" ");
+  const matchingWords = inputWords.filter(word => rantWords.includes(word));
+  return matchingWords.length / inputWords.length;
+}
+
+// Function to find similar rants
+export const findSimilarRants = async (input) => {
+  const allRants = await fetchRants();
+  const similarityScores = allRants.map(rant => ({
+    id: rant.id,
+    content: rant.content,
+    score: calculateSimilarity(input, rant.content)
+  }));
+  
+  // Sort by similarity score in descending order
+  similarityScores.sort((a, b) => b.score - a.score);
+  
+  // Return top 5 similar rants
+  return similarityScores.slice(0, 5);
 };
+
