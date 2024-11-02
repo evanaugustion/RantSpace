@@ -4,13 +4,14 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth, signInAnonymously } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA6D1ifKVPM4BilT6Y3JW8dWuHsYYMXqTw",
-  authDomain: "rantspace-36fba.firebaseapp.com",
-  projectId: "rantspace-36fba",
-  storageBucket: "rantspace-36fba.firebasestorage.app",
-  messagingSenderId: "1031497839690",
-  appId: "1:1031497839690:web:dc25efc52cfd56d34662b3"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
