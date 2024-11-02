@@ -43,9 +43,14 @@ function calculateSimilarity(input, rantContent) {
 }
 
 // Function to find similar rants
-export const findSimilarRants = async (recipient) => {
+// Function to find similar rants, excluding the current rant by content
+export const findSimilarRants = async (recipient, currentRantContent) => {
   const allRants = await fetchRants();
-  const recipientRants = allRants.filter(rant => rant.recipient === recipient); // Filter rants by recipient
+  
+  // Filter rants by recipient and exclude the current rant content
+  const recipientRants = allRants.filter(
+    rant => rant.recipient === recipient && rant.content !== currentRantContent
+  );
 
   if (recipientRants.length === 0) {
     return []; // No similar rants found
@@ -61,8 +66,9 @@ export const findSimilarRants = async (recipient) => {
   // Sort by similarity score in descending order
   similarityScores.sort((a, b) => b.score - a.score);
 
-  return similarityScores.slice(1, 2); // Return top 5 similar rants
+  return similarityScores.slice(0, 5); // Return top 5 similar rants
 };
+
 
 // Function to fetch all names from Firestore
 export const fetchNames = async () => {
