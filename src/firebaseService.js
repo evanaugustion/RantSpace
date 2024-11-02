@@ -44,7 +44,7 @@ function calculateSimilarity(input, rantContent) {
 }
 
 // Function to find similar rants
-export const findSimilarRants = async (input) => {
+export const fetchSimilarRants = async (input) => {
   const allRants = await fetchRants();
   const similarityScores = allRants.map(rant => ({
     id: rant.id,
