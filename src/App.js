@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { anonymousSignIn } from "./firebaseConfig";
-import { submitRant, fetchRants, fetchNames, findSimilarRants } from "./firebaseService";
+import { submitRant, fetchRants, fetchNames, findSimilarRants, addNames } from "./firebaseService";
 
 function App() {
   const [rant, setRant] = useState("");
@@ -27,7 +27,7 @@ function App() {
   const handleRantSubmit = async () => {
     const names = await fetchNames(); // Fetch the names once for comparison
     const identifiedRecipient = names.find(name => rant.toLowerCase().includes(name));
-    
+
     if (identifiedRecipient) {
       const rantData = {
         content: rant,

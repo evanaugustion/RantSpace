@@ -66,4 +66,17 @@ export const fetchNames = async () => {
   return snapshot.docs.map(doc => doc.data().name.toLowerCase()); // Return an array of names in lowercase
 };
 
+// Function to add a list of names to Firestore
+export const addNames = async (namesArray) => {
+  const namesCollection = collection(db, "names");
+  
+  for (const name of namesArray) {
+    try {
+      await addDoc(namesCollection, { name: name });
+      console.log(`Added name: ${name}`);
+    } catch (error) {
+      console.error("Error adding name:", error);
+    }
+  }
+};
 
