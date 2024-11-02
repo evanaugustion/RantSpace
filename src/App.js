@@ -5,7 +5,7 @@ import { submitRant, fetchRants, reportRant } from "./firebaseService";
 
 
 function App() {
-  const [rant, setRant] = useState("sdfs"); //remove string
+  const [rant, setRant] = useState(""); 
   const [rants, setRants] = useState([]);
 
   useEffect(() => {
