@@ -41,7 +41,7 @@ function App() {
       <textarea
         value={rant}
         onChange={(e) => setRant(e.target.value)}
-        placeholder="#firstname_secondname firstname is a bitch"
+        placeholder="Let out your RANTS here!"
       />
       <button onClick={handleRantSubmit}>Submit Rant</button>
 
