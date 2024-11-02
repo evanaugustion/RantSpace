@@ -4,13 +4,13 @@ import { db } from "./firebaseConfig";
 
 // Collection references
 const rantsCollection = collection(db, "rants");
-const reportedRantsCollection = collection(db, "reportedRants");
 
 // Function to submit a rant
-export const submitRant = async (content) => {
+export const submitRant = async (rantData) => {
   try {
     const rant = {
-      content: content,
+      content: rantData.content,
+      recipient: rantData.recipient, // Include the recipient
       timestamp: Timestamp.now()
     };
     await addDoc(rantsCollection, rant);
@@ -58,4 +58,12 @@ export const findSimilarRants = async (input) => {
   // Return top 5 similar rants
   return similarityScores.slice(1, 2);
 };
+
+// Function to fetch all names from Firestore
+export const fetchNames = async () => {
+  const namesCollection = collection(db, "names");
+  const snapshot = await getDocs(namesCollection);
+  return snapshot.docs.map(doc => doc.data().name.toLowerCase()); // Return an array of names in lowercase
+};
+
 
