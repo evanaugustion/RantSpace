@@ -1,4 +1,3 @@
-// src/firebaseService.js
 import { collection, addDoc, getDocs, Timestamp } from "firebase/firestore";
 import { db } from "./firebaseConfig";
 
@@ -44,19 +43,25 @@ function calculateSimilarity(input, rantContent) {
 }
 
 // Function to find similar rants
-export const fetchSimilarRants = async (input) => {
+export const findSimilarRants = async (recipient) => {
   const allRants = await fetchRants();
-  const similarityScores = allRants.map(rant => ({
+  const recipientRants = allRants.filter(rant => rant.recipient === recipient); // Filter rants by recipient
+
+  if (recipientRants.length === 0) {
+    return []; // No similar rants found
+  }
+
+  // Calculate similarity scores
+  const similarityScores = recipientRants.map(rant => ({
     id: rant.id,
     content: rant.content,
-    score: calculateSimilarity(input, rant.content)
+    score: calculateSimilarity(recipient, rant.content)
   }));
-  
+
   // Sort by similarity score in descending order
   similarityScores.sort((a, b) => b.score - a.score);
-  
-  // Return top 5 similar rants
-  return similarityScores.slice(1, 2);
+
+  return similarityScores.slice(1, 2); // Return top 5 similar rants
 };
 
 // Function to fetch all names from Firestore
@@ -65,18 +70,3 @@ export const fetchNames = async () => {
   const snapshot = await getDocs(namesCollection);
   return snapshot.docs.map(doc => doc.data().name.toLowerCase()); // Return an array of names in lowercase
 };
-
-// Function to add a list of names to Firestore
-export const addNames = async (namesArray) => {
-  const namesCollection = collection(db, "names");
-  
-  for (const name of namesArray) {
-    try {
-      await addDoc(namesCollection, { name: name });
-      console.log(`Added name: ${name}`);
-    } catch (error) {
-      console.error("Error adding name:", error);
-    }
-  }
-};
-

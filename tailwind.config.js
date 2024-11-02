@@ -7,6 +7,7 @@ module.exports = {
     extend: {},
     fontFamily: {
       'bsd': ['Big Shoulders Display','sans-serif'],
+      'itim': ['Itim','cursive'],
       
     },
   },
