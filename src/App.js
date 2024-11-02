@@ -19,6 +19,7 @@ function App() {
 
   // Submit a new rant and fetch similar rants
   const handleRantSubmit = async () => {
+    fetchSimilarRants(rant); //fetches the rant after submission
     await submitRant(rant);
     setRant("");
     loadRants();
@@ -38,7 +39,7 @@ function App() {
         value={rant}
         onChange={(e) => {
           setRant(e.target.value);
-          fetchSimilarRants(e.target.value); // Check for similar rants as you type
+          //fetchSimilarRants(e.target.value); // Check for similar rants as you type
         }}
         placeholder="Type your rant here..."
       />

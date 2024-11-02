@@ -56,6 +56,6 @@ export const findSimilarRants = async (input) => {
   similarityScores.sort((a, b) => b.score - a.score);
   
   // Return top 5 similar rants
-  return similarityScores.slice(0, 5);
+  return similarityScores.slice(1, 2);
 };
 
