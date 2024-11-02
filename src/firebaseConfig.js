@@ -4,16 +4,14 @@ import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 import { getAuth, signInAnonymously } from "firebase/auth";
 
-// https://firebase.google.com/docs/web/setup#available-libraries
 const firebaseConfig = {
-    apiKey: "AIzaSyDh2ZFHNwSckQhbHAMVdRcao8LEtSo2oXs",
-    authDomain: "rantspace-cf797.firebaseapp.com",
-    projectId: "rantspace-cf797",
-    storageBucket: "rantspace-cf797.firebasestorage.app",
-    messagingSenderId: "330037456315",
-    appId: "1:330037456315:web:1fd12d277e978a8216689e",
-    measurementId: "G-WKN9F1SNC1"
-  };
+  apiKey: "AIzaSyA6D1ifKVPM4BilT6Y3JW8dWuHsYYMXqTw",
+  authDomain: "rantspace-36fba.firebaseapp.com",
+  projectId: "rantspace-36fba",
+  storageBucket: "rantspace-36fba.firebasestorage.app",
+  messagingSenderId: "1031497839690",
+  appId: "1:1031497839690:web:dc25efc52cfd56d34662b3"
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
